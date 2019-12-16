@@ -1,0 +1,193 @@
+function maze() {
+    var playground = new Array(20);
+
+    for (var i = 0; i < playground.length; i++) {
+        playground[i] = new Array(30);
+    }
+
+    for (var i = 0; i < playground.length; ++i) {
+        for (var j = 0; j < playground[i].length; ++j) {
+            playground[i][j] = " ";
+        }
+    }
+
+    function putThings(playground) {
+       var skill = prompt("Set layout of maze \n " + "easy  \n " + "medium   \n " + "hard");
+        var hardness = 0;
+        if (skill == "easy"){hardness = 90;}
+         else  if (skill == "medium"){hardness = 150;}
+        else  if (skill == "hard"){hardness = 400;}
+        else { hardness = 140;}
+
+        playground[16][3] = " ";
+        playground[18][3] = " ";
+        for (var i = 0; i < hardness; ++i) {
+            playground[Math.floor(Math.random() * 20)][Math.floor(Math.random() * 30)] = "X";
+        }
+           
+    }
+     putThings(playground);
+    
+function putingPlayer(counter){
+if (counter > 1){
+return; 
+}
+    else {
+    var x = Math.floor(Math.random() * 3);
+    var y = Math.floor(Math.random() * 3);
+        if ( x == 1 && y == 1){ playground[0][0] = "P"; playground [19][29] = "E";  ++counter; }
+        else if ( x == 2 && y == 2){playground[19][0] = "P"; playground [0][29] = "E";++counter; }
+        putingPlayer(counter);
+    }
+}   
+    putingPlayer(1);
+    makeway(playground);
+    printMaze(playground);
+    takeTurn(playground);
+
+
+}
+
+function takeTurn(x) {
+    var locationOfP = [0, 0];
+    var step = "";
+    while (step !== "no") {
+        for (var i = 0; i < x.length; ++i) {
+            for (var j = 0; j < x[i].length; ++j) {
+                if (x[i][j] == "P") {
+                    locationOfP[0] = i;
+                    locationOfP[1] = j;
+                }
+            }
+        }
+
+        var step = prompt("Which way do you want to go?");
+        if (step == "r" && locationOfP[0] < 20 && locationOfP[1] < 29 && (x[locationOfP[0]][locationOfP[1] + 1] == " " || x[locationOfP[0]][locationOfP[1] + 1] == "E")) {
+            if (x[locationOfP[0]][locationOfP[1] + 1] == "E") {
+                x[locationOfP[0]][locationOfP[1] + 1] = "P";
+                x[locationOfP[0]][locationOfP[1]] = " ";
+                alert("You have reached the exit!");
+                return;
+            } else {
+                x[locationOfP[0]][locationOfP[1] + 1] = "P";
+                x[locationOfP[0]][locationOfP[1]] = " ";
+
+            }
+        } else if (step == "l" && locationOfP[0] < 20 && locationOfP[1] > 0 && (x[locationOfP[0]][locationOfP[1] - 1] == " " || x[locationOfP[0]][locationOfP[1] - 1] == "E")) {
+            if (x[locationOfP[0]][locationOfP[1] - 1] == "E") {
+                x[locationOfP[0]][locationOfP[1] - 1] = "P";
+                x[locationOfP[0]][locationOfP[1]] = " ";
+                alert("You have reached the exit!");
+                return;
+            } else {
+                x[locationOfP[0]][locationOfP[1] - 1] = "P";
+                x[locationOfP[0]][locationOfP[1]] = " ";
+            }
+        } else if (step == "u" && locationOfP[0] > 0 && locationOfP[0] < 20 && (x[locationOfP[0] - 1][locationOfP[1]] == " " || x[locationOfP[0] - 1][locationOfP[1]] == "E")) {
+            if (x[locationOfP[0] - 1][locationOfP[1]] == "E") {
+                x[locationOfP[0] - 1][locationOfP[1]] = "P";
+                x[locationOfP[0]][locationOfP[1]] = " ";
+                alert("You have reached the exit!");
+                return;
+            }
+            x[locationOfP[0] - 1][locationOfP[1]] = "P";
+            x[locationOfP[0]][locationOfP[1]] = " ";
+        } else if (step == "d" && locationOfP[0] >= 0 && locationOfP[0] < 19 && (x[locationOfP[0] + 1][locationOfP[1]] == " " || x[locationOfP[0] + 1][locationOfP[1]] == "E")) {
+            if (x[locationOfP[0] + 1][locationOfP[1]] == "E") {
+                x[locationOfP[0] + 1][locationOfP[1]] = "P";
+                x[locationOfP[0]][locationOfP[1]] = " ";
+                alert("You have reached the exit!");
+                return;
+            }
+            x[locationOfP[0] + 1][locationOfP[1]] = "P";
+            x[locationOfP[0]][locationOfP[1]] = " ";
+        } else {
+            if (step == "no") {
+                step = "no";
+            } else {
+                alert(" invalid direction ");
+                step = " ";
+            }
+        }
+        printMaze(x);
+    }
+
+
+}
+
+
+
+
+function printMaze(x) {
+    console.log("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _");
+
+    var line = "";
+    for (var i = 0; i < x.length; ++i) {
+        for (var j = 0; j < x[i].length; ++j) {
+            line += " " + x[i][j];
+        }
+        console.log("|" + line + "|");
+        line = "";	
+    }
+    console.log("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _");
+}
+function putingPlayer(ground){
+  var  counter = 0;
+if (counter > 1){
+return; 
+}
+    else {
+    var x = Math.floor(Math.random(2));
+    var y = Math.floor(Math.random(2));
+        if ( x == 1 && y == 1){ ground[0][0] = "P"; ground [20][30] = "E";  ++counter; }
+        else if ( x == 2 && y == 2){ground[20][0] = "P"; ground [0][30] = "E"; ++counter; }
+        putingPlayer(ground);
+    }
+}
+function makeway(x){
+x[1][0] = " ";
+x[1][1] = " ";
+    x[2][1] = " ";
+x[2][2] = " ";x[18][10] = " ";
+x[2][3] = " ";x[9][10] = " ";
+x[3][3] = " ";x[10][10] = " ";
+x[4][3] = " ";x[10][11] = " ";
+x[4][4] = " ";x[10][12] = " ";
+x[4][5] = " ";x[10][13] = " ";
+x[5][5] = " ";x[11][13] = " ";
+x[5][6] = " ";x[12][13] = " ";
+x[5][7] = " ";x[13][13] = " ";
+x[5][8] = " ";x[13][14] = " ";
+x[6][8] = " ";x[13][15] = " ";
+x[7][8] = " ";x[13][16] = " ";
+x[8][8] = " ";x[14][16] = " ";
+x[8][9] = " ";
+    x[15][16] = " ";
+    x[15][15] = " ";
+x[16][15] = " ";
+    x[18][22] = " ";
+x[17][15] = " ";
+    x[18][23] = " ";
+x[17][16] = " ";
+    x[18][24] = " ";
+x[17][17] = " ";
+    x[18][25] = " ";
+x[18][17] = " ";
+    x[18][26] = " ";
+x[19][17] = " ";
+    x[18][27] = " ";
+x[19][18] = " ";
+    x[18][28] = " ";
+x[19][19] = " ";
+    x[18][29] = " ";
+x[18][19] = " ";
+x[17][18] = " ";
+x[17][19] = " ";
+x[18][19] = " ";
+x[18][20] = " ";
+x[18][21] = " ";
+    
+    
+    
+}
+maze()
